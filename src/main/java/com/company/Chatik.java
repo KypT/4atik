@@ -14,14 +14,16 @@ public class Chatik {
     public static void runServer() {
         Server server = new Server("localhost", 8025, "/", ChatikEndpoint.class);
 
-        try {
+        try
+        {
             server.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             System.out.print("Please press a key to stop the server.");
             reader.readLine();
         } catch (Exception e) {
             throw new RuntimeException(e);
-        } finally {
+        } finally
+        {
             server.stop();
         }
     }

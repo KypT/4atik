@@ -1,30 +1,91 @@
 package com.company;
 
-import java.io.IOException;
-
+import java.io.*;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import javax.websocket.*;
 import javax.websocket.CloseReason.CloseCodes;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint(value = "/")
-public class ChatikEndpoint {
+@ServerEndpoint(value = "/", encoders = ChatikMessageEncoder.class, decoders = ChatikMessageDecoder.class)
+public class ChatikEndpoint
+{
+    List<String> users = new LinkedList<String>();
 
-    @OnOpen
-    public void onOpen(Session session)
+    @OnClose
+    public void onClose(final Session session)
     {
-        System.out.print("New user connected");
+        String user = (String) session.getUserProperties().get("username");
+        users.remove(user);
+
+        ChatikMessage response = new ChatikMessage("userDisconnected", user);
+        replicate(session, response);
     }
 
     @OnMessage
-    public String onMessage(String message, Session session)
+    public void onMessage(final Session session, final ChatikMessage chatikMessage)
     {
-        System.out.println(message);
-        return message;
+        String command = chatikMessage.getCommand();
+
+        if (command.equals("connect"))
+        {
+            String user = chatikMessage.getSender();
+            connectNewUser(session, user);
+            ChatikMessage msg = new ChatikMessage("userConnected", user);
+            replicate(session, msg);
+        }
+
+        if (command.equals("send"))
+        {
+            replicate(session, chatikMessage);
+        }
+
+        if (command.equals("getUserlist"))
+        {
+            sendUserlist(session);
+        }
     }
 
-    @OnClose
-    public void onClose(Session session, CloseReason closeReason)
+    private void replicate(Session session, ChatikMessage chatikMessage)
     {
-        System.out.println(String.format("Session %s closed because of %s", session.getId(), closeReason));
+        for (Session s : session.getOpenSessions())
+        {
+            if (!s.isOpen()) continue;
+            try {
+                s.getBasicRemote().sendObject(chatikMessage);
+            } catch (Exception ex) {
+                System.out.printf("Caught %s when sending messages\n", ex.getClass().toString());
+            }
+        }
+    }
+
+    private void connectNewUser(Session session, String username)
+    {
+        users.add(username);
+        session.getUserProperties().put("username", username);
+        ChatikMessage response = new ChatikMessage("connect", "You have successfully logged in to the 4atik! Have fun)");
+        try {
+            session.getBasicRemote().sendObject(response);
+            System.out.println(username + " connected");
+        } catch ( Exception e)
+        {
+            System.out.println("Error occurred while establishing connection to new user \n" + e);
+        }
+    }
+
+    private void sendUserlist(Session session)
+    {
+        ChatikMessage response = new ChatikMessage("getUserlist", "");
+        for(String user : users)
+        {
+            response.setMessage(user);
+            try {
+                session.getBasicRemote().sendObject(response);
+            } catch (Exception ex)
+            {
+                System.out.println("Error occurred while sending userlist \n" + ex);
+            }
+        }
     }
 }
