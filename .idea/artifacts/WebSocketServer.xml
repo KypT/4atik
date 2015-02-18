@@ -1,0 +1,22 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="WebSocketServer">
+    <output-path>$PROJECT_DIR$/out/artifacts/WebSocketServer</output-path>
+    <root id="archive" name="WebSocketServer.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="library" level="project" name="Maven: javax.websocket:javax.websocket-api:1.0" />
+      <element id="library" level="project" name="Maven: org.glassfish.tyrus:tyrus-server:1.1" />
+      <element id="library" level="project" name="Maven: org.glassfish.tyrus:tyrus-core:1.1" />
+      <element id="library" level="project" name="Maven: org.glassfish.tyrus:tyrus-spi:1.1" />
+      <element id="library" level="project" name="Maven: org.glassfish.tyrus:tyrus-websocket-core:1.1" />
+      <element id="library" level="project" name="Maven: org.glassfish:javax.json:1.0.4" />
+      <element id="library" level="project" name="Maven: org.glassfish.tyrus:tyrus-container-grizzly:1.1" />
+      <element id="library" level="project" name="Maven: org.glassfish.grizzly:grizzly-framework:2.3.3" />
+      <element id="library" level="project" name="Maven: org.glassfish.grizzly:grizzly-http-server:2.3.3" />
+      <element id="library" level="project" name="Maven: org.glassfish.grizzly:grizzly-http:2.3.3" />
+      <element id="library" level="project" name="Maven: org.glassfish.grizzly:grizzly-rcm:2.3.3" />
+      <element id="module-output" name="4atik" />
+    </root>
+  </artifact>
+</component>

@@ -11,13 +11,10 @@ import javax.websocket.server.ServerEndpoint;
 @ServerEndpoint(value = "/", encoders = ChatikMessageEncoder.class, decoders = ChatikMessageDecoder.class)
 public class ChatikEndpoint
 {
-    List<String> users = new LinkedList<String>();
-
     @OnClose
     public void onClose(final Session session)
     {
         String user = (String) session.getUserProperties().get("username");
-        users.remove(user);
 
         ChatikMessage response = new ChatikMessage("userDisconnected", user);
         replicate(session, response);
@@ -62,7 +59,6 @@ public class ChatikEndpoint
 
     private void connectNewUser(Session session, String username)
     {
-        users.add(username);
         session.getUserProperties().put("username", username);
         ChatikMessage response = new ChatikMessage("connect", "You have successfully logged in to the 4atik! Have fun)");
         try {
@@ -77,6 +73,9 @@ public class ChatikEndpoint
     private void sendUserlist(Session session)
     {
         ChatikMessage response = new ChatikMessage("getUserlist", "");
+        List<String> users = getConnectedUsers(session);
+        if (users.isEmpty()) return;
+
         for(String user : users)
         {
             response.setMessage(user);
@@ -87,5 +86,16 @@ public class ChatikEndpoint
                 System.out.println("Error occurred while sending userlist \n" + ex);
             }
         }
+    }
+
+    private List<String> getConnectedUsers(Session session)
+    {
+        List<String> users = new LinkedList<String>();
+        for (Session s : session.getOpenSessions())
+        {
+            if (s.getUserProperties().containsKey("username"))
+                users.add((String)s.getUserProperties().get("username"));
+        }
+        return users;
     }
 }
