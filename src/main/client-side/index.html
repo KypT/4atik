@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title>4atik!</title>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="style.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <script src = source.js></script>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body>
+        <div class="container">
+            <h1>Welcome to 4atik</h1>
+            <div id = "login">
+                <input type="text" autofocus id = 'user'>
+                <input type="button" id = 'loginButton' value = "login">
+            </div>
+
+            <div id = chatik>
+                <div class = "row" id = "content">
+                    <div class = "col-sm-9">
+                        <ul class="list-group" id = "history"></ul>
+                    </div>
+                    <div class = "col-sm-3">
+                        <div class="btn-group-vertical btn-group-lg" id = "userlist"></div>
+                    </div>
+                </div>
+
+                    <div class = "row" id = "controls">
+                        <div class = "col-sm-9">
+                            <textarea class="form-control" rows="2" id = "messageInput"></textarea>
+                        </div>
+                        <div class = "col-sm-3">
+                            <button type="button" class="btn btn-primary btn-lg" id = "sendButton">
+                                <span class="glyphicon glyphicon-envelope"> Send</span>
+                            </button>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </body>
+
+</html>
