@@ -1,4 +1,4 @@
-package com.company;
+package server;
 import java.util.Date;
 
 public class ChatikMessage

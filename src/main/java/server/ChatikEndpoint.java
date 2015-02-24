@@ -1,4 +1,4 @@
-package com.company;
+package server;
 
 import java.io.*;
 import java.util.Date;

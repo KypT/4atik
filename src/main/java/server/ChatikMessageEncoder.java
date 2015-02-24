@@ -1,4 +1,4 @@
-package com.company;
+package server;
 
 import javax.json.Json;
 import javax.websocket.*;

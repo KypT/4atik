@@ -1,4 +1,4 @@
-package com.company;
+package server;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
